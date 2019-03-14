@@ -1,5 +1,5 @@
 # Rprs
-R package for computing Polygenic Risk Scores (PRS) from dosage.
+R package for computing Polygenic Risk Scores (PRS) from dosages (DS).
 Supports VCF, BCF and savvy input formats.
 
 ## Install

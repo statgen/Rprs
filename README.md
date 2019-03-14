@@ -11,6 +11,6 @@ R CMD INSTALL Rprs
 ## Run
 ```
 library(Rprs)
-p <- prs("weights.txt", "dosages.vcf.gz", "samples.txt")
+p <- prs("weights.txt", "dosages.vcf.gz", "samples.txt", pvalues = c(1.0, 5e-8))
 write.table(p, col.names = TRUE, row.names = FALSE, sep = "\t", quote = F)
 ```

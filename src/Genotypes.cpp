@@ -51,13 +51,10 @@ public:
          is_reading = true;
          has_cached = false;
       }
-
       if (!has_cached) {
          f->read(anno, dosages);
       }
-
       bool position_found = false;
-     
       while (f->good()) {
          if (anno.position() < position) {
             f->read(anno, dosages);  

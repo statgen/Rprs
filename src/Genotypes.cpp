@@ -19,21 +19,29 @@ protected:
    savvy::site_info anno;
    savvy::armadillo::dense_vector<double> dosages;
    bool flip;
+   vector<string> selected_samples;
 
 public:
    Genotypes(const Rcpp::CharacterVector& v ): file(v[0]), is_reading(false), has_cached(false), flip(false) {}
 
    void open(const vector<string>& samples) {
+      selected_samples.clear();
       f = unique_ptr<savvy::vcf::indexed_reader<1>>(new savvy::vcf::indexed_reader<1>(file, {""}, savvy::fmt::ds));
       if (samples.size() > 0) {
-         f->subset_samples({ samples.begin(), samples.end() });
+         selected_samples = f->subset_samples({ samples.begin(), samples.end() });
+      } else {
+         selected_samples = f->samples();
       }
       is_reading = false;
       has_cached = false;
    }
 
-   Rcpp::CharacterVector get_samples() const {
+   Rcpp::CharacterVector get_all_samples() const {
       return Rcpp::wrap(savvy::vcf::reader<1>(file, savvy::fmt::gt).samples());
+   }
+
+   Rcpp::CharacterVector get_selected_samples() const {
+      return Rcpp::wrap(selected_samples);
    }
 
    Rcpp::CharacterVector get_chromosomes() const {
@@ -93,7 +101,8 @@ RCPP_MODULE(GenotypesEx) {
    Rcpp::class_<Genotypes>("Genotypes")
       .constructor<Rcpp::CharacterVector>()
       .method("open", &Genotypes::open)
-      .method("get_samples", &Genotypes::get_samples)
+      .method("get_all_samples", &Genotypes::get_all_samples)
+      .method("get_selected_samples", &Genotypes::get_selected_samples)
       .method("get_chromosomes", &Genotypes::get_chromosomes)
       .method("read_variant", &Genotypes::read_variant)
       ;

@@ -71,7 +71,7 @@ prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0))
    weights <- weights[with(weights, order(CHROM, POS, decreasing = FALSE)),] # ensure that positions are sorted 
    
    
-   weights <- weights[weights$PVALUE < max(pvalues), ] # subset to weights which satisfy all p-value thresholds
+   weights <- weights[weights$PVALUE <= max(pvalues), ] # subset to weights which satisfy all p-value thresholds
    pvalues <- sort(pvalues, decreasing = TRUE)
 
    # set samples to use

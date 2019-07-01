@@ -116,7 +116,7 @@ prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0))
       }
    }
    message("Done")
-   
+
    if (length(samples) > 0) {
       individual_prs <- individual_prs[samples, ] # order samples as in input samples file
    }

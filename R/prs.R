@@ -114,9 +114,10 @@ prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0))
       }
    }
    message("Done")
-   d <- cbind(IID = dimnames(individual_prs)$samples, data.frame(individual_prs))
    if (length(samples) > 0) {
-      d <- d[samples, ] # order samples as in input samples file
+      individual_prs <- individual_prs[samples, ] # order samples as in input samples file
    }
+   
+   d <- cbind(IID = dimnames(individual_prs)$samples, data.frame(individual_prs))
    return(d)
 }

@@ -41,9 +41,9 @@ prs_gw <- function(weights_file, genotypes_file, samples_file, pvalue = 1.0, wei
       }
       for (i in seq_along(weight_cols)) {
          weight <- weights[row_idx, weight_cols[i]]
-         if (weight >= 0) {
+         if (weight > 0) {
             individual_prs[, i] <- individual_prs[, i] + weight * dosage
-         } else {
+         } else if (weight < 0) {
             individual_prs[, i] <- individual_prs[, i] + weight * (dosage - 2.0)
          }
       }
@@ -72,8 +72,7 @@ prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0))
    weights <- read.table(weights_file, header = TRUE, stringsAsFactors = FALSE, colClasses = c("character", "integer", "character", "character", "numeric", "numeric"))
    weights <- weights[with(weights, order(CHROM, POS, decreasing = FALSE)),] # ensure that positions are sorted 
    
-   
-   weights <- weights[weights$PVALUE <= max(pvalues), ] # subset to weights which satisfy all p-value thresholds
+   weights <- weights[weights$PVALUE <= max(pvalues) & weights$WEIGHT != 0, ] # subset to weights which satisfy all p-value thresholds; skip SNPs with 0 effects
    pvalues <- sort(pvalues, decreasing = TRUE)
 
    # set samples to use

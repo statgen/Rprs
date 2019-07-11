@@ -16,7 +16,7 @@ prs_gw <- function(weights_file, genotypes_file, samples_file, pvalue = 1.0, wei
 
    weights <- read.table(weights_file, header = TRUE, stringsAsFactors = FALSE, colClasses = col_classes)
    weights <- weights[with(weights, order(CHROM, POS, decreasing = FALSE)),] # ensure that positions are sorted
-   weights <- weights[weights$PVALUE < pvalue, ] # subset to weights which satisfy p-value threshold
+   weights <- weights[weights$PVALUE <= pvalue, ] # subset to weights which satisfy p-value threshold
 
    # set samples to use
    if (!is.null(samples_file)) {

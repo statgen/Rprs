@@ -108,7 +108,7 @@ prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0))
          next
       }
       for (i in seq_along(pvalues)) {
-         if (pvalue < pvalues[i]) {
+         if (pvalue <= pvalues[i]) {
             individual_prs[, i] <- individual_prs[, i] + risk * dosage
          } else {
             break

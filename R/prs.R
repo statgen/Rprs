@@ -30,7 +30,7 @@ prs_gw <- function(weights_file, genotypes_file, samples_file, pvalue = 1.0, wei
    geno_samples <- genotypes$get_selected_samples() # get samples in the same order as in the genotype file
 
    weight_cols <- colnames(weights)[which(startsWith(colnames(weights), weight_col))]
-   individual_prs <- matrix(nrow = length(geno_samples), ncol = length(weight_cols), data = 0, dimnames = list(samples = geno_samples, scores = paste("PRS_", weight_cols, sep="")))
+   individual_prs <- data.frame(matrix(nrow = length(geno_samples), ncol = length(weight_cols), data = 0, dimnames = list(samples = geno_samples, scores = paste("PRS_", weight_cols, sep=""))))
    
    for (row_idx in 1:nrow(weights)) {
       ea <- weights[row_idx, "EA"]
@@ -53,12 +53,13 @@ prs_gw <- function(weights_file, genotypes_file, samples_file, pvalue = 1.0, wei
    }
    message("Done")
    
+   individual_prs <- cbind(IID = rownames(individual_prs),individual_prs)
+    
    if (length(samples) > 0) {
-      individual_prs <- individual_prs[samples, ] # order samples as in input samples file
+      individual_prs <- individual_prs[samples,]
    }
-   
-   d <- cbind(IID = dimnames(individual_prs)$samples, data.frame(individual_prs, row.names = NULL))
-   return(d)  
+   rownames(individual_prs) <- NULL
+   rerturn(individual_prs) 
 }
 
 prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0)) {
@@ -86,7 +87,7 @@ prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0))
    genotypes$open(samples) # open file for reading and set samples
    geno_samples <- genotypes$get_selected_samples() # get samples in the same order as in the genotype file
 
-   individual_prs <- matrix(nrow = length(geno_samples), ncol = length(pvalues), data = 0, dimnames = list(samples = geno_samples, scores = paste("PRS_", pvalues, sep="")))
+   individual_prs <- data.frame(matrix(nrow = length(geno_samples), ncol = length(pvalues), data = 0, dimnames = list(samples = geno_samples, scores = paste("PRS_", pvalues, sep=""))))
    for (row_idx in 1:nrow(weights)) {
       weight <- weights[row_idx, "WEIGHT"]
       if (weight >= 0) {
@@ -116,10 +117,12 @@ prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0))
    }
    message("Done")
 
+   individual_prs <- cbind(IID = rownames(individual_prs),individual_prs)
+    
    if (length(samples) > 0) {
-      individual_prs <- individual_prs[samples, ] # order samples as in input samples file
+   	individual_prs <- individual_prs[samples,]
    }
+   rownames(individual_prs) <- NULL
    
-   d <- cbind(IID = dimnames(individual_prs)$samples, data.frame(individual_prs))
-   return(d)
+   return(individual_prs)
 }

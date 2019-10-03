@@ -59,7 +59,7 @@ prs_gw <- function(weights_file, genotypes_file, samples_file, pvalue = 1.0, wei
       individual_prs <- individual_prs[samples,]
    }
    rownames(individual_prs) <- NULL
-   rerturn(individual_prs) 
+   return(individual_prs) 
 }
 
 prs_pt <- function(weights_file, genotypes_file, samples_file, pvalues = c(1.0)) {

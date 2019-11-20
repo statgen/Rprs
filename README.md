@@ -1,6 +1,6 @@
 # Rprs
 R package for computing Polygenic Risk Scores (PRS) from dosages (DS).
-Supports VCF, BCF and savvy input formats.
+Supports VCF and BCF input formats.
 
 ## Install
 Clone repository using `git clone` and run the following command:
@@ -10,7 +10,7 @@ R CMD INSTALL Rprs
 
 ## Run
 
-### Pruning and Thresholding (PT) method.
+### P-value Thresholding (PT) method.
 
 - Weights file must have the following columns (in the same order): CHROM, POS, OA, EA, WEIGHT, PVALUE.
 - If no samples file is provided (i.e. NULL), then all samples are used.

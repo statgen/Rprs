@@ -12,6 +12,7 @@ R CMD INSTALL Rprs
 
 ### P-value Thresholding (PT) method.
 
+- Uses an LD clumped weight file as input
 - Weights file must have the following columns (in the same order): CHROM, POS, OA, EA, WEIGHT, PVALUE.
 - If no samples file is provided (i.e. NULL), then all samples are used.
 

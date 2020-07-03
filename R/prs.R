@@ -1,4 +1,4 @@
-prs_gw <- function(weights_file, genotypes_file, samples_file, pvalue = 1.0, weight_col = 'WEIGHT_') {
+prs_gw <- function(weights_file, genotypes_file, samples_file, weight_col = 'WEIGHT_') {
    if (is.null(weights_file)) {
       stop("Provide weights file.")
    }
@@ -10,13 +10,11 @@ prs_gw <- function(weights_file, genotypes_file, samples_file, pvalue = 1.0, wei
    col_classes <- sapply(lookahead, class)
    col_classes[c("CHROM", "OA", "EA")] <- "character"
    col_classes["POS"] <- "integer"
-   col_classes["PVALUE"] <- "numeric"
    col_classes[which(startsWith(colnames(lookahead), weight_col))] <- "numeric"
-   col_classes[-c(which(colnames(lookahead) %in% c("CHROM", "POS", "OA", "EA", "PVALUE")), which(startsWith(colnames(lookahead), weight_col)))] <- list(NULL)
+   col_classes[-c(which(colnames(lookahead) %in% c("CHROM", "POS", "OA", "EA")), which(startsWith(colnames(lookahead), weight_col)))] <- list(NULL)
 
    weights <- read.table(weights_file, header = TRUE, stringsAsFactors = FALSE, colClasses = col_classes)
    weights <- weights[with(weights, order(CHROM, POS, decreasing = FALSE)),] # ensure that positions are sorted
-   weights <- weights[weights$PVALUE <= pvalue, ] # subset to weights which satisfy p-value threshold
 
    # set samples to use
    if (!is.null(samples_file)) {

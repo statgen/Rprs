@@ -24,12 +24,12 @@ write.table(p, col.names = TRUE, row.names = FALSE, sep = "\t", quote = F)
 
 ### Genome-wide PRS method.
 
-- Weights file must have the following columns (in arbitrary order): CHROM, POS, OA, EA, PVALUE, and multiple columns for weights.
+- Weights file must have the following columns (in arbitrary order): CHROM, POS, OA, EA, and multiple columns for weights.
 - All weight columns must have the same prefix (e.g. "LDpred_", "LDpred", "WEIGHT_", "WEIGHT", or similar). You must specify this prefix using the `weight_col` function argument. Default is `WEIGHT_`.
 - If no samples file is provided (i.e. NULL), then all samples are used.
 
 ```
 library(Rprs)
-p <- prs_gw("weights.txt", "dosages.vcf.gz", "samples.txt", pvalue = 1.0, weight_col = "LDpred_")
+p <- prs_gw("weights.txt", "dosages.vcf.gz", "samples.txt", weight_col = "LDpred_")
 write.table(p, col.names = TRUE, row.names = FALSE, sep = "\t", quote = F)
 ```

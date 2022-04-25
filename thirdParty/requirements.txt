@@ -1,1 +1,2 @@
+zlib,http://zlib.net/fossils/zlib-1.2.11.tar.gz
 statgen/savvy@5cf11170e5d
